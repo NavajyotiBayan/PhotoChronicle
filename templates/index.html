@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en" data-theme="sage">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PhotoChronicle 1.0 — Preserve Your Timeline</title><link rel="stylesheet" href="/static/app.css"></head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="brandmark">PC</div><div><b>PhotoChronicle</b><small>Preserve Your Timeline</small></div></div>
+  <nav>
+    <button class="nav active" data-page="dashboard"><span>⌂</span>Dashboard</button>
+    <button class="nav" data-page="source"><span>▣</span>Source &amp; Output</button>
+    <button class="nav" data-page="timestamps"><span>◷</span>Timestamps</button>
+    <button class="nav" data-page="metadata"><span>◈</span>Metadata</button>
+    <button class="nav" data-page="organization"><span>▤</span>Organization</button>
+    <button class="nav" data-page="processing"><span>▶</span>Processing</button>
+  </nav>
+  <div class="sidebarBottom">
+    <div class="local"><i></i><div><b>Local processing</b><small>Your media stays on this PC</small></div></div>
+    <button class="nav" data-page="settings"><span>✓</span>Final Review</button>
+    <div class="build">PhotoChronicle v1.0</div>
+  </div>
+</aside>
+<main>
+<header><div><div class="eyebrow">PHOTO ARCHIVE WORKSPACE</div><h1 id="pageTitle">Preserve your timeline.</h1><p id="pageSub">Correct Takeout dates, organize your archive, and keep your memories in order.</p></div><div class="health"><span id="healthDot"></span><span id="healthText">Checking local service…</span></div></header>
+
+<section id="dashboard" class="page active">
+  <div class="hero card"><div><span class="badge">LOCAL · PRIVATE · SAFE</span><h2>Bring your Google Takeout archive back into order.</h2><p>Select or drop your extracted Takeout folder. PhotoChronicle scans it first, then lets you review every important option before anything is processed.</p><div class="actions"><button class="primary" id="chooseBtn">Choose Takeout Folder</button></div></div><div class="heroArt"><div class="timeline"><span>2007</span><b>→</b><span>2018</span><b>→</b><span>2026</span></div><div class="archiveIcon">▤</div></div></div>
+  <div class="dropzone" id="dropzone"><div class="dropIcon">↓</div><div><strong>Drag &amp; drop your Takeout folder here</strong><span>Folder drop works best in Edge or Chrome</span></div><button class="secondary" id="dropBrowse">Browse</button></div>
+  <div class="grid3"><div class="stat card"><small>INPUT</small><strong>Google Takeout</strong><span>Photos, videos and JSON sidecars</span></div><div class="stat card"><small>DATE SOURCE</small><strong>JSON first</strong><span>Multiple Google metadata formats are recognized</span></div><div class="stat card"><small>OUTPUT</small><strong>Your folder</strong><span>Write directly to a location you choose</span></div></div>
+</section>
+
+<section id="source" class="page">
+  <div class="sectionGrid"><div class="card"><span class="eyebrow">SOURCE</span><h2>Takeout archive</h2><div class="pathBox"><span id="sourceName">No folder selected</span><small id="sourceHint">Choose or drag a folder from Dashboard.</small></div><div class="scanGrid"><div><b id="scanMedia">0</b><span>Media</span></div><div><b id="scanJson">0</b><span>JSON</span></div><div><b id="scanAll">0</b><span>All files</span></div></div><div class="formatBox"><span class="eyebrow">FORMAT COVERAGE</span><p id="scanFormats">Supported photo/video formats will appear here after scanning.</p></div><button class="secondary" id="changeSource">Choose another folder</button></div>
+  <div class="card"><span class="eyebrow">OUTPUT</span><h2>Choose destination</h2><p>PhotoChronicle will create the organized date folders inside this location.</p><div class="pathBox"><span id="outputPath">Not selected</span><small>Source files are never overwritten.</small></div><button class="primary" id="chooseOutput">Choose Output Folder</button></div></div>
+  <div class="card stepCard"><div><span class="eyebrow">STEP 1 OF 5</span><h3>Source is ready. Continue to timestamp rules.</h3><p>Nothing is processed yet.</p></div><button class="primary" id="continueBtn">Next: Timestamps →</button></div>
+</section>
+
+<section id="timestamps" class="page"><div class="sectionGrid"><div class="card"><span class="eyebrow">STEP 2 OF 5 · TIMESTAMPS</span><h2>Restore the original timeline.</h2><p>PhotoChronicle checks matching JSON sidecars and reads Takeout timestamp fields in priority order.</p><label>Folder structure<select id="structure"><option>YYYY/MM/DD</option><option>YYYY/MM</option><option>YYYY</option><option>YYYY-MM-DD</option></select></label><label>Duplicate handling<select id="duplicates"><option value="Rename">Rename safely</option><option value="Skip">Skip duplicates</option><option value="overwrite">Overwrite</option></select></label></div><div class="card preview"><span class="eyebrow">OUTPUT PREVIEW</span><h3>Example structure</h3><pre id="tree">PhotoChronicle Output/
+├── 2024/
+│   └── 06/
+│       └── 14/
+└── NO JSON FILES/</pre></div></div><div class="stepActions"><button class="secondary" id="timestampsBack">← Back</button><button class="primary" id="timestampsNext">Next: Metadata →</button></div></section>
+
+<section id="metadata" class="page"><div class="sectionGrid"><div class="card"><span class="eyebrow">STEP 3 OF 5 · METADATA</span><h2>Preserve the corrected date.</h2><p>Windows filesystem dates are always restored from the resolved Takeout timestamp. Optionally write the same date into supported media metadata.</p><label class="toggle"><input type="checkbox" id="useExif" checked><span></span><div><b>Use ExifTool</b><small>Local bundled tool</small></div></label><label class="toggle"><input type="checkbox" id="writeMeta" checked><span></span><div><b>Write corrected media metadata</b><small>EXIF / QuickTime where supported</small></div></label></div><div class="card"><span class="eyebrow">TOOL STATUS</span><h3 id="exifStatus">Checking…</h3><p>ExifTool runs locally. No metadata is sent anywhere.</p><div class="statusPill" id="exifPill">Checking</div></div></div><div class="stepActions"><button class="secondary" id="metadataBack">← Back</button><button class="primary" id="metadataNext">Next: Organization →</button></div></section>
+
+<section id="organization" class="page"><div class="card orgPanel"><span class="eyebrow">STEP 4 OF 5 · ORGANIZATION</span><h2>Choose a clean archive structure.</h2><p>PhotoChronicle keeps the archive predictable while separating files that cannot be dated safely.</p><div class="orgCards"><div><b>DATE FOLDERS</b><span id="orgStructure">YYYY/MM/DD</span><small>Files with a valid Takeout timestamp</small></div><div><b>NO JSON FILES</b><span>Unmatched media goes to a clearly labelled folder.</span><small>Original media is preserved</small></div><div><b>NO TIMESTAMP</b><span>JSON exists, but no usable date was found.</span><small>Nothing is guessed</small></div></div><div class="pairNote"><b>Live Photos &amp; Motion Pairs</b><span>Matching same-stem photo/video files are kept together and receive the same resolved date.</span></div></div><div class="stepActions"><button class="secondary" id="organizationBack">← Back</button><button class="primary" id="reviewBtn">Next: Final Review →</button></div></section>
+
+<section id="settings" class="page"><div class="sectionGrid"><div class="card"><span class="eyebrow">STEP 5 OF 5 · FINAL REVIEW</span><h2>Ready to process.</h2><div class="finalCheck" id="finalCheck"></div><label>File operation<select id="copyMode"><option value="Copy">Copy</option><option value="Move">Move staged copy</option></select></label><label class="toggle compact"><input type="checkbox" id="confirmStart" checked><span></span><div><b>Confirm before processing</b></div></label></div><div class="card themeCard"><span class="eyebrow">EYE COMFORT</span><h3>Choose your workspace theme</h3><p>Five low-glare themes. Your choice is saved in this browser.</p><div class="themeGrid"><button data-theme-choice="sage">Sage</button><button data-theme-choice="stone">Stone</button><button data-theme-choice="mist">Mist</button><button data-theme-choice="sand">Sand</button><button data-theme-choice="night">Night</button></div></div></div><div class="stepActions"><button class="secondary" id="reviewBack">← Back</button><button class="primary" id="startBtn">Start Processing</button></div></section>
+
+<section id="processing" class="page"><div class="card process"><div class="processTop"><div><span class="eyebrow">PROCESSING</span><h2 id="procMessage">Ready to process.</h2><p id="currentFile">Your archive will be processed locally.</p></div><div class="percent" id="percent">0%</div></div><div class="bar"><i id="bar"></i></div><div class="processMeta"><span id="count">0 / 0 files</span><span id="operation">Waiting</span></div><div class="consoleHead"><span>LIVE CONSOLE</span><button class="secondary" id="clearConsole">Clear</button></div><div class="log" id="log"><div class="logline"><em>INFO</em><span>PhotoChronicle is ready.</span></div></div><div class="processActions"><button class="danger" id="cancelBtn" disabled>Cancel Processing</button></div></div></section>
+
+</main></div>
+<input id="folderInput" type="file" webkitdirectory directory multiple hidden aria-label="Choose Takeout folder">
+<div class="toast" id="toast"></div>
+<div class="modalWrap" id="successModal" aria-hidden="true"><div class="modal card"><div class="successIcon">✓</div><span class="eyebrow">COMPLETE</span><h2>Successfully processed.</h2><p id="successText">Your organized archive is ready in the output folder.</p><div class="modalStats" id="modalStats"></div><div class="modalActions"><button class="primary" id="modalOpen">Open Output Folder</button><button class="secondary" id="modalClose">Done</button></div></div></div>
+<script src="/static/app.js"></script></body></html>

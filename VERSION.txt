@@ -1,0 +1,4 @@
+PhotoChronicle 1.0.0
+Preserve Your Timeline
+
+Stable local release.
