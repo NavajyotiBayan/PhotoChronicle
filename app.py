@@ -541,26 +541,51 @@ def save_uploads(file_list, staging):
 
 @app.post("/api/scan")
 def scan():
+    # Large Takeout folders are uploaded in small sequential batches by the browser.
+    # This keeps individual HTTP requests small even when the complete archive is hundreds
+    # of GB. A single unusually large media file is still accepted up to MAX_CONTENT_LENGTH.
     files = request.files.getlist("files")
     if not files:
         return jsonify(error="No files selected"), 400
-    sid = uuid.uuid4().hex[:10]
-    staging = WORK / f"{sid}_scan"
-    staging.mkdir(parents=True, exist_ok=True)
-    try:
-        manifest = save_uploads(files, staging)
+
+    sid = request.form.get("scan_id") or uuid.uuid4().hex[:10]
+    existing = scans.get(sid)
+    if existing:
+        staging = Path(existing["staging"])
+        manifest = existing["manifest"]
+        media = existing["media"]
+        json_count = existing["json"]
+        ext_counts = dict(existing["ext_counts"])
+    else:
+        staging = WORK / f"{sid}_scan"
+        staging.mkdir(parents=True, exist_ok=True)
+        manifest = []
         media = 0; json_count = 0; ext_counts = {}
-        for f in manifest:
+
+    try:
+        batch_manifest = save_uploads(files, staging)
+        manifest.extend(batch_manifest)
+        for f in batch_manifest:
             p = Path(f["path"])
             ext = p.suffix.lower()
             if ext in MEDIA_EXT:
                 media += 1; ext_counts[ext] = ext_counts.get(ext, 0) + 1
             elif ext == ".json":
                 json_count += 1
-        scans[sid] = {"manifest": manifest, "media": media, "json": json_count, "files": len(files), "ext_counts": ext_counts, "staging": str(staging), "created": time.time()}
-        return jsonify(scan_id=sid, media=media, json=json_count, files=len(files), extensions=ext_counts)
+
+        scans[sid] = {
+            "manifest": manifest,
+            "media": media,
+            "json": json_count,
+            "files": len(manifest),
+            "ext_counts": ext_counts,
+            "staging": str(staging),
+            "created": existing.get("created", time.time()) if existing else time.time(),
+        }
+        return jsonify(scan_id=sid, media=media, json=json_count, files=len(manifest), extensions=ext_counts)
     except Exception as exc:
-        shutil.rmtree(staging, ignore_errors=True)
+        if not existing:
+            shutil.rmtree(staging, ignore_errors=True)
         return jsonify(error=str(exc)), 500
 
 
