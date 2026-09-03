@@ -4,6 +4,21 @@
 
 PhotoChronicle is a local Windows browser application for restoring and organizing media exported with Google Takeout. It reads Google metadata JSON sidecars, resolves the best available timestamp, organizes media into date folders, restores Windows filesystem dates, and can optionally write the corrected date into media metadata with the bundled ExifTool.
 
+##  How to Use PhotoChronicle
+
+1. 📦 **Download & extract** the PhotoChronicle ZIP.
+2. 📂 Open the extracted **PhotoChronicle** folder.
+3. ▶️ Double-click **`start.bat`**.
+4. 🌐 PhotoChronicle will start its **local service** and automatically open in your browser.
+5. 💻 Keep the terminal window open while PhotoChronicle is running.
+
+> 🔒 **Privacy first**
+> PhotoChronicle is **local-first by design**. Your photos, videos, and metadata are processed on your own computer through the local PhotoChronicle service — **nothing is uploaded to a cloud server.**
+
+**Your memories stay on your machine.**
+**Your timeline. Your archive. Your control.**
+
+
 ## Highlights
 
 - 100% local processing: the application binds to `127.0.0.1` and does not upload media to an online service.
